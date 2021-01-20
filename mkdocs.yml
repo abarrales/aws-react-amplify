@@ -3,23 +3,23 @@
 site_name: Deploying a React Application using AWS Amplify
 site_description: 
 #site_author: 'beralfon@amazon.com'
-site_url: 'http://aws-react-amplify.ws.kabits.com'
+#site_url: 'http://aws-react-amplify.ws.kabits.com'
 
 # Repository
 #repo_name: 'aws-samples/aws-security-workshops'
-repo_url: 'https://github.com/aurbac/aws-react-amplify'
+repo_url: 'https://github.com/abarrales/aws-react-amplify.git'
 
-google_analytics: ['UA-55517703-9', 'aws-react-amplify.ws.kabits.com']
+#google_analytics: ['UA-55517703-9', 'aws-react-amplify.ws.kabits.com']
 
 # Copyright
-copyright: '<a href="https://aws.amazon.com/privacy/" target="blank">Privacy</a> | <a href="https://aws.amazon.com/terms/" target="blank">Site terms</a> | &copy; 2020, Amazon Web Services, Inc. or its affiliates. All rights reserved.'
+copyright: '<a href="https://aws.amazon.com/privacy/" target="blank">Privacy</a> | <a href="https://aws.amazon.com/terms/" target="blank">Site terms</a> | &copy; 2021, Amazon Web Services, Inc. or its affiliates. All rights reserved.'
 
 extra:
   social: 
     - icon: fontawesome/brands/github-alt
-      link: https://github.com/aurbac
+      link: https://github.com/abarrales
     - icon: fontawesome/solid/home
-      link: http://aws-msg-app.ws.kabits.com
+      link: http://amplify.abarrales.net
 
 nav:
     - Home: index.md

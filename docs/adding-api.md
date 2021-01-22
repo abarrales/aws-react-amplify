@@ -20,17 +20,22 @@ Use a Cognito user pool configured as a part of this project.
 
 ? Do you have an annotated GraphQL schema? **No**
 
-? Do you want a guided schema creation? **Yes**
+? Choose a schema template: (Use arrow keys): **Single object with fields (e.g., “Todo” with ID, name, description)**
 
-? What best describes your project: **Single object with fields (e.g., “Todo” with ID, name, description)**
+? Do you want to edit the schema now? **No**
 
-? Do you want to edit the schema now? **Yes**
+_The following types do not have '@auth' enabled. Consider using @auth with @model_
+         - Todo
+Learn more about @auth here: https://docs.amplify.aws/cli/graphql-transformer/auth
 
-Please edit the file in your editor: **/home/ec2-user/environment/react-my-todos/amplify/backend/api/todos/schema.graphql**
 
-? Press enter to continue Selected  editor vscode was not found in your machine. Please manually edit the file created at /home/ec2-user/environment/react-my-todos/amplify/backend/api/todos/schema.graphql
+GraphQL schema compiled successfully.
 
-? **Press enter to continue **
+Edit your schema at **/home/ec2-user/environment/react-my-todos/amplify/backend/api/reactmytodosvfinal/schema.graphql** or place .graphql files in a directory at **/home/ec2-user/environment/react-my-todos/amplify/backend/api/reactmytodosvfinal/schema**
+? Do you want to edit the schema now? **No**
+
+_Successfully added resource reactmytodosvfinal locally_
+
 
 1.2\. Manually edit the file created, you can mouse-over the file name in the terminal, click it, and select **Open**.
 

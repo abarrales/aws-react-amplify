@@ -28,15 +28,7 @@ amplify add storage
 
 Successfully added resource S3Triggeraa668107 locally
 
-? Do you want to edit the local S3Triggeraa668107 lambda function now? **Yes**
-
-Please edit the file in your editor: /home/ec2-user/environment/react-my-todos/amplify/backend/function/S3Triggerff25f09f/src/index.js
-
-? Press enter to continue Selected  editor vscode was not found in your machine. Please manually edit the file created at /home/ec2-user/environment/react-my-todos/amplify/backend/function/S3Triggerff25f09f/src/index.js
-
-? **Press enter to continue**
-
-1.2\. Optionally, you can open the **index.js** file.
+? Do you want to edit the local S3Triggeraa668107 lambda function now? **No**
 
 ![Amplify add storage](images/amplify-add-storage.png)
 
@@ -54,23 +46,25 @@ amplify push
 
 2.1\. Update/replace the contents of **src/components/S3ImageUpload.js** with the following.
 
-``` javascript hl_lines="5 6 7 8 13 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 36 37 38 39 40 67 68 69 70 71 72"
-import React, { Component } from "react";
+``` javascript hl_lines="5-7 19-34 42"
+import { useState, useEffect } from "react";
 import { Button, Avatar } from "@material-ui/core";
 import { v4 as uuid } from "uuid";
 
 import { Auth, Storage } from 'aws-amplify';
-import { S3Image } from 'aws-amplify-react';
 import awsconfig from '../aws-exports'
 Storage.configure(awsconfig);
 
-export default class S3ImageUpload extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { uploading: false, path: "" };
-  }
+function S3ImageUpload(props) {
+  
+  const [uploading, setUploading] = useState(false);
+  const [mysrc, setMysrc] = useState("");
+  
+  useEffect(() => {
+    onImageLoad(props.image);
+  }, [props.image]); 
 
-  uploadFile = async file => {
+  const uploadFile = async file => {
     let fileName = uuid();
     const name_s = file.name.split(".");
     const extension = name_s[name_s.length-1];
@@ -85,58 +79,65 @@ export default class S3ImageUpload extends Component {
       }
     );
     console.log('Uploaded file: ', JSON.stringify(result));
-    this.setState({ path: image_prefix+fileName });
-    console.log(this.state.path);
+    setUploading(false);
+    props.onLoadImage(image_prefix+fileName);
+  };
+  
+  const onImageLoad = async imgKey =>{
+    if (!imgKey) {
+      return;
+    }
+    try {
+      const result = await Storage.get(imgKey);
+      setMysrc(result);
+    } catch (err) {
+      console.log(err);
+      throw new Error(err);
+    }
   };
 
-  onChange = async e => {
+  const onChange = async e => {
+    setUploading(true);
     let files = [];
     for (var i=0; i<e.target.files.length; i++) {
       files.push(e.target.files.item(i));
     }
-    await Promise.all(files.map(f => this.uploadFile(f)));
-    this.setState({ uploading: true });
+    Promise.all(files.map(f => uploadFile(f)));
   };
-
-  render() {
-    return (
-      <div style={{ marginTop: 10, marginBottom: 10 }}>
-        <Button
-          variant="contained"
-          onClick={() =>
-            document.getElementById("add-image-file-input").click()
-          }
-          disabled={this.state.uploading}
-          icon="file image outline"
-          content={this.state.uploading ? "Uploading..." : "Add Images"}
-        >
-          Select Image
-        </Button>
-        <input
-          id="add-image-file-input"
-          type="file"
-          accept="image/jpeg"
-          //multiple
-          onChange={this.onChange}
-          style={{ display: "none" }}
-        />
-        <Avatar alt="Image" style={{ width: 140, height: 140, marginTop: 15 }}>
-         <S3Image 
-            imgKey={this.state.path}
-            onLoad={this.props.onLoadImage(this.state.path)}
-            theme={{ photoImg: { height: '140px' } }}
-            style={{display: 'inline-block', 'paddingRight': '5px'}}
-          />
-        </Avatar>
-      </div>
-    );
-  }
+  
+  return (
+    <div style={{ marginTop: 10, marginBottom: 10 }}>
+      <Button
+        variant="contained"
+        onClick={() =>
+          document.getElementById("add-image-file-input").click()
+        }
+        icon="file image outline"
+        content={uploading ? "Uploading..." : "Add Images"}
+        disabled={uploading}
+      >
+        {uploading ? "Uploading..." : "Select Image"}
+      </Button>
+      <input
+        id="add-image-file-input"
+        type="file"
+        accept="image/jpeg"
+        onChange={onChange}
+        style={{ display: "none" }}
+      />
+      <Avatar alt="Image" style={{ width: 140, height: 140, marginTop: 15 }}>
+        <img src={mysrc} alt="" style={{display: 'inline-block', 'paddingRight': '5px', 'height': '140px'}} />
+      </Avatar>
+    </div>
+  );
 }
+
+export default S3ImageUpload;
 ```
 
 2.2\. Update/replace the contents of **src/components/addTodo.js** with the following.
 
-``` javascript hl_lines="42 71 72 73 74 75 88 132"
+``` javascript hl_lines="42 71-74 87 131-134"
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";
@@ -268,7 +269,10 @@ function AddTodo() {
                 />
               </div>
             </MuiPickersUtilsProvider>
-            <S3ImageUpload onLoadImage={handleLoadImage} />
+            <S3ImageUpload 
+              image={image}
+              onLoadImage={handleLoadImage} 
+            />
             <Button
               variant="contained"
               className={classes.button}
@@ -298,7 +302,7 @@ export default AddTodo;
 
 2.3\. Update/replace the contents of **src/components/editTodo.js** with the following.
 
-``` javascript hl_lines="44 79 80 81 82 83 97 141"
+``` javascript hl_lines="78-81 95 139-142"
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";
@@ -342,14 +346,9 @@ function EditTodo(props) {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [item, setItem] = useState({ id: "", username: "", description: "", dateAt: "", image: null });
   const [user, setUser] = useState({});
-  const [image, setImage] = useState("");
   let history = useHistory();
-  useEffect(() => {
-    fetchItem();
-  }, []);
-
-  const fetchItem = async () => {
-    console.log(props.match.params.idTodo);
+  
+  const fetchItem = useCallback(async () => {
     try {
       const data = await Auth.currentUserPoolUser();
       const userInfo = { username: data.username, ...data.attributes, };
@@ -357,11 +356,15 @@ function EditTodo(props) {
       const response = await API.graphql(graphqlOperation(getTodo, {
           id: props.match.params.idTodo
       }));
-      console.log(response.data.getTodo);
       setSelectedDate(new Date(response.data.getTodo.dateAt));
       setItem({ id:response.data.getTodo.id, username: response.data.getTodo.username, description: response.data.getTodo.description, image: response.data.getTodo.image });
     } catch (err) { console.log('error: ', err) }
-  };
+    console.log(props.match.params.idTodo);
+  }, [props.match.params.idTodo]);
+  
+  useEffect(() => {
+    fetchItem();
+  }, [fetchItem]);
 
   const handleDateChange = date => {
     setSelectedDate(date);
@@ -378,9 +381,8 @@ function EditTodo(props) {
   }
   
   const handleLoadImage = event => {
-    console.log("Hanlde onLoadImage");
-    console.log(event);
-    setImage(event);
+    console.log("Handle onLoadImage: ", event);
+    setItem({ id: item.id, username: user.username, description: item.description, dateAt: item.dateAt, image: event });
   };
 
   return (
@@ -395,7 +397,7 @@ function EditTodo(props) {
         onSubmit={(values, { resetForm }) => {
           console.log(values);
           console.log(selectedDate.getTime());
-          callEditTodo({ id: item.id, username: user.username, description: values.description, dateAt: selectedDate.getTime(), image: image });
+          callEditTodo({ id: item.id, username: user.username, description: values.description, dateAt: selectedDate.getTime(), image: item.image });
           setMySubmitting(true);
           resetForm();
         }}
@@ -439,7 +441,10 @@ function EditTodo(props) {
                 />
               </div>
             </MuiPickersUtilsProvider>
-            <S3ImageUpload onLoadImage={handleLoadImage} />
+            <S3ImageUpload 
+              image={item.image}
+              onLoadImage={handleLoadImage} 
+            />
             <Button
               variant="contained"
               className={classes.button}
@@ -469,7 +474,7 @@ export default EditTodo;
 
 2.4\. Update/replace the contents of **src/components/itemTodo.js** with the following.
 
-``` javascript hl_lines="20 97 98 99 100 101"
+``` javascript hl_lines="20 97-100"
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -489,7 +494,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useHistory } from "react-router-dom";
 
-import { S3Image } from 'aws-amplify-react';
+import { AmplifyS3Image } from '@aws-amplify/ui-react';
 import Analytics from '@aws-amplify/analytics';
 import awsconfig from '../aws-exports';
 Analytics.configure(awsconfig);
@@ -566,11 +571,10 @@ function ItemTodo(props) {
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
           <Avatar>
-             <S3Image 
+             <AmplifyS3Image
                 imgKey={props.item.image}
-                theme={{ photoImg: { height: '42px' } }}
-                style={{display: 'inline-block', 'paddingRight': '5px'}}
-              />
+                style={{display: 'inline-block', 'paddingRight': '5px', '--height': '41px'}}
+            />
           </Avatar>
         </Grid>
         <Grid item xs zeroMinWidth>
@@ -626,12 +630,4 @@ function ItemTodo(props) {
 export default ItemTodo;
 ```
 
-2.5\. **Adding**, **committing**, and **pushing** files to the CodeCommit repository.
-
-``` bash
-git add .
-git commit -m "Storage added"
-git push origin master
-```
-
-2.6\. Go back to your application running, now you can create a todo and retrive the data from the DynamoDB Table.
+2.5\. Go back to your application running, now you can create a todo and retrive the data from the DynamoDB Table.

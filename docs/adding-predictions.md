@@ -22,7 +22,7 @@ amplify add predictions
 
 ![Amplify predictions tranlaste](images/amplify-predictions-translate.png)
 
-1.2\. Using the Amplify CLI add predictions to **Speech audio from Text (English)**, use the following values.
+1.2\. **AGAIN** Using the Amplify CLI add predictions to **Speech audio from Text (English)**, use these new values.
 
 ``` bash
 amplify add predictions
@@ -80,7 +80,7 @@ import { useHistory } from "react-router-dom";
 
 import Amplify, {Predictions} from 'aws-amplify';
 import {AmazonAIPredictionsProvider} from '@aws-amplify/predictions';
-import { S3Image } from 'aws-amplify-react';
+import { AmplifyS3Image } from '@aws-amplify/ui-react';
 import Analytics from '@aws-amplify/analytics';
 import awsconfig from '../aws-exports';
 Analytics.configure(awsconfig);
@@ -208,11 +208,10 @@ function ItemTodo(props) {
       <Grid container wrap="nowrap" spacing={2}>
         <Grid item>
           <Avatar>
-             <S3Image 
+             <AmplifyS3Image
                 imgKey={props.item.image}
-                theme={{ photoImg: { height: '42px' } }}
-                style={{display: 'inline-block', 'paddingRight': '5px'}}
-              />
+                style={{display: 'inline-block', 'paddingRight': '5px', '--height': '41px'}}
+            />
           </Avatar>
         </Grid>
         <Grid item xs zeroMinWidth>
@@ -267,13 +266,4 @@ function ItemTodo(props) {
 
 export default ItemTodo;
 ```
-
-2.2\. **Adding**, **committing**, and **pushing** files to the CodeCommit repository.
-
-``` bash
-git add .
-git commit -m "Predictions added"
-git push origin master
-```
-
-2.3\. Go back to your application running, now you translate and speech todos.
+2.2\. Go back to your application running, now you can translate and speech todos.

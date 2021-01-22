@@ -107,7 +107,7 @@ import EditTodo from "./components/editTodo.js";
 import Paper from "@material-ui/core/Paper";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import { withAuthenticator, AmplifyGreetings  } from '@aws-amplify/ui-react'
 import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
 import awsExports from "./aws-exports";
@@ -163,14 +163,17 @@ function App() {
 export default withAuthenticator(App);
 ```
 
-3.2\. Go back to your application running and create an account in the app by providing a username, password, and a valid email address (to receive a confirmation code at).
+3.2\. Go back to your Preview running application, now you'll see the **Sign in to your account** screen, in this page Click on **Create account** link and provide a username, password, a valid email address and a phone number (to receive a confirmation code at).
 
 ![React Auth](images/react-auth.png)
+
+![React Auth Create Account](images/react-auth-create-account.png)
 
 **What we changed in App.js**
 
 * Imported and configured the AWS Amplify JS library
 * Imported the withAuthenticator higher order component from aws-amplify-react
+* Validate if the user has been logged in order to customize the Greeting message
 * Wrapped the App component using withAuthenticator
 
 3.3\. Check your email. You should have received a confirmation link and after the validation you should then be able to log in with the username and password you entered during sign up.

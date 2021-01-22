@@ -92,33 +92,33 @@ GraphQL schema compiled successfully.
 
 ![Appsync queries](images/appsync-queries.png)
 
-2.3\. Paste the value into **ClientId**, enter **your credentials for the user you created in the react application** and click **Login**.
+2.3\. Select the value into **ClientId**, enter **your credentials for the user you created in the react application** and click **Login**.
 
 ![Appsync login](images/appsync-login.png)
 
-2.4\. Copy/pasting the following, replace with your **username** and try by pressing the orange **play** button to execute the mutations **one by one**.
+2.4\. Copy/pasting the following, replace with your **YOUR_USER_NAME** and try by pressing the orange **play** button to execute each mutation **one by one**.
 
 ```
 mutation createTodo1 {
-  createTodo(input: { username: "YOUR_USER_NAME", description: "It’s supposed to be automatic, but actually you have to push this button.", dateAt: 1605598082000  } ){
+  createTodo(input: { username: "YOUR_USER_NAME", description: "It’s supposed to be automatic, but actually you have to push this button.", dateAt: 1611815400000  } ){
     description dateAt
   }
 }
 
 mutation createTodo2 {
-  createTodo(input: { username: "YOUR_USER_NAME", description: "The human spirit must prevail over technology.", dateAt: 1573975682000  } ){
+  createTodo(input: { username: "YOUR_USER_NAME", description: "The human spirit must prevail over technology.", dateAt: 1611815400000  } ){
     description dateAt
   }
 }
 
 mutation createTodo3 {
-  createTodo(input: { username: "YOUR_USER_NAME", description: "Technology… the knack of so arranging the world that we don’t have to experience it.", dateAt: 1573975682000  } ){
+  createTodo(input: { username: "YOUR_USER_NAME", description: "Technology… the knack of so arranging the world that we don’t have to experience it.", dateAt: 1611815400000  } ){
     description dateAt
   }
 }
 
 mutation createTodo4 {
-  createTodo(input: { username: "YOUR_USER_NAME", description: "Technology made large populations possible; large populations now make technology indispensable.", dateAt: 1573975682000  } ){
+  createTodo(input: { username: "YOUR_USER_NAME", description: "Technology made large populations possible; large populations now make technology indispensable.", dateAt: 1611815400000  } ){
     description dateAt
   }
 }
@@ -126,7 +126,7 @@ mutation createTodo4 {
 
 ![Run Mutations](images/appsync-run-mutations.png)
 
-2.5\. Copy/pasting the following, replace with your **username** and try by pressing the orange **play** button to execute the query.
+2.5\. Copy/pasting the following, replace with your **YOUR_USER_NAME** and try by pressing the orange **play** button to execute the query.
 
 ```
 query listTodos{
@@ -150,7 +150,7 @@ query listTodos{
 
 3.1\. Update/replace the contents of **src/components/indexTodos.js** with the following.
 
-``` javascript hl_lines="9 10 11 12 13 14 38 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 66 69 70 71 72 73 74 75 76 77 78"
+``` javascript hl_lines="9 10 11 12 13 14 45 46 47 48 49 50 51 52 53 54 55 56 57 58 64 67-76"
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Fab } from "@material-ui/core";
@@ -188,7 +188,6 @@ const useStyles = makeStyles(theme => ({
 
 function IndexTodos() {
   const classes = useStyles();
-  const [user, setUser] = useState({});
   useEffect(() => {
     fetchItems();
   }, []);
@@ -199,7 +198,6 @@ function IndexTodos() {
     try {
       const data = await Auth.currentUserPoolUser();
       const userInfo = { username: data.username, ...data.attributes, };
-      setUser(userInfo);
       const response = await API.graphql(graphqlOperation(listTodos, {
           limit: 100,
           filter: {

@@ -163,11 +163,13 @@ function App() {
 export default withAuthenticator(App);
 ```
 
-3.2\. Go back to your Preview running application, now you'll see the **Sign in to your account** screen, in this page Click on **Create account** link and provide a username, password, a valid email address and a phone number (to receive a confirmation code at).
+3.2\. Go back to your Preview running application, now you'll see the **Sign in to your account** screen.
 
 ![React Auth](images/react-auth.png)
 
-![Auth Create Account](images/react-auth-create-account.png)
+3.3. In the previous page Click on **Create account** link and provide a username, password, valid email address and a phone number (to receive a confirmation code at).
+
+![React Auth Create Account](images/react-auth-create-account.png)
 
 **What we changed in App.js**
 
@@ -176,8 +178,8 @@ export default withAuthenticator(App);
 * Validate if the user has been logged in order to customize the Greeting message
 * Wrapped the App component using withAuthenticator
 
-3.3\. Check your email. You should have received a confirmation link and after the validation you should then be able to log in with the username and password you entered during sign up.
+3.4\. Check your email. You should have received a confirmation link and after the validation you should then be able to log in with the username and password you entered during sign up.
 
-3.4\. Once you sign in, the form disappears and you can see our App component rendered below a header bar that contains your username and a **Sign Out** button.
+3.5\. Once you sign in, the form disappears and you can see our App component rendered below a header bar that contains your username and a **Sign Out** button.
 
 ![React sign in](images/react-sign-in.png)

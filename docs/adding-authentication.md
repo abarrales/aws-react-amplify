@@ -167,7 +167,7 @@ export default withAuthenticator(App);
 
 ![React Auth](images/react-auth.png)
 
-![React Auth Create Account](images/react-auth-create-account.png)
+![Auth Create Account](images/react-auth-create-account.png)
 
 **What we changed in App.js**
 

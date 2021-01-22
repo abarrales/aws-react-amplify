@@ -430,8 +430,8 @@ export default AddTodo;
 
 3.3\. Update/replace the contents of **src/components/editTodo.js** with the following.
 
-``` javascript hl_lines="12 13 14 15 16 17 43 51 52 53 54 55 56 57 58 59 60 61 69 70 71 72 73 74 75 84 90"
-import React, { useState, useEffect } from "react";
+``` javascript hl_lines="1 12-17 43 46-58 69-75 84 90"
+import React, { useState, useEffect, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -475,11 +475,8 @@ function EditTodo(props) {
   const [item, setItem] = useState({ id: "", username: "", description: "", dateAt: "", image: null });
   const [user, setUser] = useState({});
   let history = useHistory();
-  useEffect(() => {
-    fetchItem();
-  }, []);
-
-  const fetchItem = async () => {
+  
+  const fetchItem = useCallback(async () => {
     console.log(props.match.params.idTodo);
     try {
       const data = await Auth.currentUserPoolUser();
@@ -488,11 +485,14 @@ function EditTodo(props) {
       const response = await API.graphql(graphqlOperation(getTodo, {
           id: props.match.params.idTodo
       }));
-      console.log(response.data.getTodo.dateAt);
       setSelectedDate(new Date(response.data.getTodo.dateAt));
       setItem({ id:response.data.getTodo.id, username: response.data.getTodo.username, description: response.data.getTodo.description });
     } catch (err) { console.log('error: ', err) }
-  };
+  }, [props.match.params.idTodo]);
+  
+  useEffect(() => {
+    fetchItem();
+  }, [fetchItem]); 
 
   const handleDateChange = date => {
     setSelectedDate(date);
@@ -592,12 +592,4 @@ function EditTodo(props) {
 export default EditTodo;
 ```
 
-3.4\. **Adding**, **committing**, and **pushing** files to the CodeCommit repository.
-
-``` bash
-git add .
-git commit -m "API added"
-git push origin master
-```
-
-3.5\. Go back to your application running, now you can retrieve, create, edit and delete a todos from the DynamoDB table.
+3.4\. Go back to your application running, now you can retrieve, create, edit and delete a todos from the DynamoDB table.

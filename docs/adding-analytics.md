@@ -229,7 +229,7 @@ export default ItemTodo;
 ```
 2.3\. Update the contents of **src/App.js** with the following.
 
-``` javascript hl_lines="1 11 23 24 25 26 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50"
+``` javascript hl_lines="11 12 23 24 25 26 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50"
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -241,7 +241,7 @@ import Paper from "@material-ui/core/Paper";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Analytics from '@aws-amplify/analytics';
-import { Auth } from 'aws-amplify'
+import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
 Auth.configure(awsconfig);
@@ -308,26 +308,18 @@ function App() {
 export default withAuthenticator(App, {includeGreetings: true});
 ```
 
-2.4\. **Adding**, **committing**, and **pushing** files to the CodeCommit repository.
+2.4\. Go back to your application running and navigate between pages.
 
-``` bash
-git add .
-git commit -m "Analytics added"
-git push origin master
-```
+2.5\. To see the results open the Amazon Pinpoint console at https://console.aws.amazon.com/pinpoint/.
 
-2.5\. Go back to your application running and navigate between pages.
+2.6\. On the **All projects** page, choose the project **todos-prod**.
 
-2.6\. To see the results open the Amazon Pinpoint console at https://console.aws.amazon.com/pinpoint/.
+2.7\. In the navigation pane, under **Analytics**, choose **Events**.
 
-2.7\. On the **All projects** page, choose the project **todos-prod**.
-
-2.8\. In the navigation pane, under **Analytics**, choose **Events**.
-
-2.9\. Expand the **Filters** section, choose **More information**, and then choose **Enable filters**.
+2.8\. Expand the **Filters** section, choose **More information**, and then choose **Enable filters**.
 
 ![Pinpoint events](images/pinpont-enable-filters.png)
 
-2.10\. Now you can explore the events recorded.
+2.9\. Now you can explore the events recorded.
 
 ![Pinpoint events](images/amplify-pinpoint-events.png)

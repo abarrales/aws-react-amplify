@@ -9,14 +9,17 @@ The AWS Amplify CLI makes it easy to deploy our app to an Amazon S3 bucket and C
 ``` bash
 amplify add hosting
 ```
+? Select the plugin module to execute: Amazon CloudFront and S3 
 
-? Select the environment setup: **PROD (S3 with CloudFront using HTTPS)**
+? Select the environment setup: **DEV (S3 only with HTTP)**
 
 ? hosting bucket name **react-my-todos-20190709233955-hostingbucket** (Use default name)
 
 ? index doc for the website **index.html**
 
 ? error doc for the website **index.html**
+
+![Amplify add hosting](images/amplify-add-hosting.png)
 
 1.2\. Publish your React application.
 

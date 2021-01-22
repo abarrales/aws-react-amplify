@@ -12,7 +12,7 @@
 
 ![Cloud9 name environment](images/cloud9-name.png)
 
-1.4\. For the **Configure settings** section, select the instance type **t3.small** and choose **Next step**.
+1.4\. For the **Configure settings** section, select the instance type **m5.large**, Platform **Amazon Linux 2 (recommended)**, Cost-saving setting **After four hours** and choose **Next step**.
 
 ![Cloud9 Settings](images/cloud9-settings.png)
 
@@ -84,7 +84,7 @@ sed -i 's/aws_session_token =//g' ~/.aws/credentials
 
 ``` bash
 cd ~/environment/
-git clone --single-branch --branch start https://github.com/aurbac/react-my-todos.git
+git clone --single-branch --branch master https://github.com/abarrales/react-my-todos.git
 cd react-my-todos
 git branch master
 git checkout master
@@ -117,59 +117,3 @@ npm start
 4.6\. Finally, open another terminal window. We’ll leave this first terminal alone since it’s running the web server process.
 
 ![Cloud9 new terminal](images/cloud9-new-terminal.png)
-
-## 5. Create an AWS CodeCommit repository
-
-5.1\. Open the CodeCommit console at https://console.aws.amazon.com/codesuite/codecommit/home.
-
-5.2\. On the **Repositories page**, choose **Create repository**.
-
-5.3\. On the **Create repository** page, in **Repository name** type `react-my-todos` and enter a **Description**, choose **Create**.
-
-![Creare CodeCommit Repository](images/codecommit-create.png)
-
-5.4\. From the **Clone URL** drop down, select **Clone HTTPS**, you will use the URL copied later. 
-
-![CodeCommit Repository](images/codecommit-repository.png)
-
-## 6. Using AWS CodeComit repository
-
-6.1\. Your AWS Cloud9 development environment already have IAM credentiales configured, use these credentials with the AWS CLI credential helper. Enable the credential helper by running the following two commands in the terminal of your Cloud9 environment.
-
-``` bash
-git config --global credential.helper '!aws codecommit credential-helper $@'
-git config --global credential.UseHttpPath true
-```
-
-6.2\. Go inside **react-my-todos** folder and remove remote from git project.
-
-``` bash
-cd ~/environment/react-my-todos/
-git remote remove origin
-```
-
-6.3\. Use your repository URL to add your new Git origin to your project, the following command add it depending of the AWS region that you are working on.
-
-``` bash
-export MY_REGION=`aws configure get region`
-git remote add origin https://git-codecommit.$MY_REGION.amazonaws.com/v1/repos/react-my-todos
-```
-
-6.4\. Configure Git with your name and email.
-
-``` bash
-git config --global user.name "Your Name"
-git config --global user.email you@example.com
-```
-
-6.5\. **Adding**, **committing**, and **pushing** files to the CodeCommit repository.
-
-``` bash
-git add .
-git commit -m "Preparing your development environment"
-git push origin master
-```
-
-6.6\. Now you can use the CodeCommit console to review the files in a repository or quickly read the contents of a file.
-
-![CodeCommit Code](images/codecommit-code.png)

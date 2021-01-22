@@ -14,7 +14,7 @@ npm install -g @aws-amplify/cli
 
 ``` bash
 cd ~/environment/react-my-todos/
-npm install --save aws-amplify@2.2.4 aws-amplify-react@3.1.5
+npm install aws-amplify @aws-amplify/ui-react
 ```
 
 1.3\. Initialize the Amplify project and use the following values.
@@ -71,35 +71,11 @@ amplify add auth
 
  How do you want users to be able to sign in? **Username**
 
- Do you want to configure advanced settings? **Yes, I want to make some additional changes.**
-
- Warning: you will not be able to edit these selections. 
-
- What attributes are required for signing up? **Email**
-
- Do you want to enable any of the following capabilities? **Email Verification Link with Redirect** (Tap spacebar to checkbox select)
-
-? Enter the URL that your users will be redirected to upon account confirmation: **https://aws.amazon.com/**
-
-? Enter the subject for your custom account confirmation email: **Confirmation**
-
-? Enter the body text for your custom account confirmation email (this will appear before the link URL): **Confirm...**
-
-Succesfully added the Lambda function locally
-
-? Do you want to edit your verification-link function now? **Yes**
-
-Please edit the file in your editor: **/home/ec2-user/environment/react-my-todos/amplify/backend/function/reactmytodos1c127207CustomMessage/src/verification-link.js**
-
-? Press enter to continue Selected  editor vscode was not found in your machine. Please manually edit the file created at /home/ec2-user/environment/react-my-todos/amplify/backend/function/reactmytodos1c127207CustomMessage/src/verification-link.js
-
-? **Press enter to continue **
-
-2.2\. Once you finish the settings you can open the **verification-link** file to review the settings by clicking the URL file and **Open**.
+ Do you want to configure advanced settings? **No, I am done.**
 
 ![Amplify add auth](images/amplify-add-auth.png)
 
-2.3\. Push to create these changes in the cloud.
+2.2\. Push to create these changes in the cloud.
 
 ``` bash
 amplify push
@@ -120,8 +96,8 @@ amplify push
 
 3.1\. Update the contents of **src/App.js** with the following.
 
-``` javascript hl_lines="11 12 13 14 49"
-import React from "react";
+``` javascript hl_lines="1 11 12 13 14 15 26 27 28 29 30 31 35 36 37 38 61"
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -131,10 +107,11 @@ import EditTodo from "./components/editTodo.js";
 import Paper from "@material-ui/core/Paper";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
-Auth.configure(awsconfig);
+import { Amplify, Auth } from 'aws-amplify';
+import { withAuthenticator, AmplifyGreetings  } from '@aws-amplify/ui-react'
+import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
+import awsExports from "./aws-exports";
+Amplify.configure(awsExports);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -145,8 +122,19 @@ const useStyles = makeStyles(theme => ({
 function App() {
   const classes = useStyles();
 
+  useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      setAuthState(nextAuthState);
+      setUser(authData);
+    });
+  }, []);
+  
   return (
     <div className="App">
+      { authState === AuthState.SignedIn && user ?
+        (<AmplifyGreetings username={authState === AuthState.SignedIn && user ? user.username : ""}></AmplifyGreetings>)
+       : ""
+      }
       <Router>
         <React.Fragment>
           <CssBaseline />
@@ -169,7 +157,7 @@ function App() {
   );
 }
 
-export default withAuthenticator(App, {includeGreetings: true});
+export default withAuthenticator(App);
 ```
 
 3.2\. **Adding**, **committing**, and **pushing** files to the CodeCommit repository.

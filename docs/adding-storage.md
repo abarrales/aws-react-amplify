@@ -46,7 +46,7 @@ amplify push
 
 2.1\. Update/replace the contents of **src/components/S3ImageUpload.js** with the following.
 
-``` javascript hl_lines="5-7 19-34 42"
+``` javascript hl_lines="3 5-7 19-34 42"
 import { useState, useEffect } from "react";
 import { Button, Avatar } from "@material-ui/core";
 import { v4 as uuid } from "uuid";
@@ -137,7 +137,7 @@ export default S3ImageUpload;
 
 2.2\. Update/replace the contents of **src/components/addTodo.js** with the following.
 
-``` javascript hl_lines="42 71-74 87 131-134"
+``` javascript hl_lines="42 71-75 88 132-135"
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";
@@ -630,4 +630,4 @@ function ItemTodo(props) {
 export default ItemTodo;
 ```
 
-2.5\. Go back to your application running, now you can create a todo and retrive the data from the DynamoDB Table.
+2.5\. Go back to your application running, now you can **Add** a todo with an image or **Edit** an image in an existing todo item.

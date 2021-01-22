@@ -96,7 +96,7 @@ amplify push
 
 3.1\. Update the contents of **src/App.js** with the following.
 
-``` javascript hl_lines="1 11 12 13 14 15 26 27 28 29 30 31 35 36 37 38 61"
+``` javascript hl_lines="1 11 12 13 14 15 26 27 29 30 31 32 33 34 38 39 40 41 64"
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -121,6 +121,9 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
+  
+  const [user, setUser] = React.useState();
+  const [authState, setAuthState] = React.useState();
 
   useEffect(() => {
     return onAuthUIStateChange((nextAuthState, authData) => {
@@ -172,6 +175,6 @@ export default withAuthenticator(App);
 
 3.3\. Check your email. You should have received a confirmation link and after the validation you should then be able to log in with the username and password you entered during sign up.
 
-3.3\. Once you sign in, the form disappears and you can see our App component rendered below a header bar that contains your username and a **Sign Out** button.
+3.4\. Once you sign in, the form disappears and you can see our App component rendered below a header bar that contains your username and a **Sign Out** button.
 
 ![React sign in](images/react-sign-in.png)

@@ -178,7 +178,7 @@ export default withAuthenticator(App);
 * Validate if the user has been logged in order to customize the Greeting message
 * Wrapped the App component using withAuthenticator
 
-3.4\. Check your email. You should have received a confirmation link and after the validation you should then be able to log in with the username and password you entered during sign up.
+3.4\. Check your email. You should have received a verification code, copy/paste it in your running application and after the validation you should then be able to log in with the username and password you entered during sign up.
 
 3.5\. Once you sign in, the form disappears and you can see our App component rendered below a header bar that contains your username and a **Sign Out** button.
 

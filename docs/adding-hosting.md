@@ -31,6 +31,8 @@ amplify publish
 
 1.3\. After your app is published, use the endpoint resulted to get into your application.
 
+![Amplify hosting publish](images/amplify-hosting-publish.png)
+
 
 !!! done
     **Congratulations!!!** Now you have a modern application deployed using AWS Amplify.

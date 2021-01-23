@@ -303,7 +303,7 @@ export default AddTodo;
 2.3\. Update/replace the contents of **src/components/editTodo.js** with the following.
 
 ``` javascript hl_lines="55 78-81 95 139-142"
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";

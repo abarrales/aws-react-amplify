@@ -9,7 +9,7 @@ The AWS Amplify CLI makes it easy to deploy our app to an Amazon S3 bucket and C
 ``` bash
 amplify add hosting
 ```
-? Select the plugin module to execute: Amazon CloudFront and S3 
+? Select the plugin module to execute: **Amazon CloudFront and S3** 
 
 ? Select the environment setup: **DEV (S3 only with HTTP)**
 

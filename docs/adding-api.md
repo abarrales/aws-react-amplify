@@ -430,7 +430,7 @@ export default AddTodo;
 
 3.3\. Update/replace the contents of **src/components/editTodo.js** with the following.
 
-``` javascript hl_lines="1 12-17 43 46-58 69-75 84 90"
+``` javascript hl_lines="12-17 43 46-58 69-75 84 90"
 import React, { useState, useEffect, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField, Typography } from "@material-ui/core";

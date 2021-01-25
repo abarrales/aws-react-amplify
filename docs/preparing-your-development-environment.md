@@ -84,7 +84,7 @@ sed -i 's/aws_session_token =//g' ~/.aws/credentials
 
 ``` bash
 cd ~/environment/
-git clone --single-branch --branch master https://github.com/abarrales/react-my-todos.git
+git clone --single-branch --branch start https://github.com/abarrales/react-my-todos.git
 cd react-my-todos
 git branch master
 git checkout master

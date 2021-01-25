@@ -242,8 +242,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Analytics from '@aws-amplify/analytics';
 import { Amplify, Auth } from 'aws-amplify';
+import { withAuthenticator, AmplifyGreetings  } from '@aws-amplify/ui-react'
+import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
 import awsconfig from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
 Auth.configure(awsconfig);
 
 const useStyles = makeStyles(theme => ({

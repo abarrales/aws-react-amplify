@@ -245,7 +245,7 @@ import { Amplify, Auth } from 'aws-amplify';
 import { withAuthenticator, AmplifyGreetings  } from '@aws-amplify/ui-react'
 import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
 import awsconfig from './aws-exports';
-Auth.configure(awsconfig);
+Amplify.configure(awsExports);
 
 const useStyles = makeStyles(theme => ({
   root: {

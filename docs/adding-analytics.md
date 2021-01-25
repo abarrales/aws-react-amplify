@@ -281,9 +281,23 @@ function App() {
       console.log(error);
     }
   }
+  
+  const [user, setUser] = React.useState();
+  const [authState, setAuthState] = React.useState();
+  
+  useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      setAuthState(nextAuthState);
+      setUser(authData);
+    });
+  }, []);
 
   return (
     <div className="App">
+      { authState === AuthState.SignedIn && user ?
+        (<AmplifyGreetings username={authState === AuthState.SignedIn && user ? user.username : ""}></AmplifyGreetings>)
+       : "" 
+      }
       <Router>
         <React.Fragment>
           <CssBaseline />
@@ -306,7 +320,7 @@ function App() {
   );
 }
 
-export default withAuthenticator(App, {includeGreetings: true});
+export default withAuthenticator(App);
 ```
 
 2.4\. Go back to your application running and navigate between pages.
